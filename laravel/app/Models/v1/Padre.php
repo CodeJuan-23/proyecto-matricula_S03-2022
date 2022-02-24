@@ -11,7 +11,7 @@ class Padre extends Model
     use HasFactory;
     use HasUUID;
 
-    protected $table="Padre";
+    protected $table="padres";
     protected $primarykey="id";
     protected $keyType="string";
     protected $uuidFieldName="id";
