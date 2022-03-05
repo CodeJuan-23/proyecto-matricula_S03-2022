@@ -1,0 +1,191 @@
+<div id="mdCreate" class="modal fade" role="dialog">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+
+
+      <div class="modal-header">
+         <h4><b>Editar registro de padres</b></h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+         </button>
+      </div>  
+         
+
+      <div class="modal-body">
+              <!-- form start -->
+              
+              <form id="formNewPadre">
+
+                <div class="card-body">
+
+                  <div class="row">
+
+                  	 <div class="col-md-6">
+                       <div class="form-group">
+                        <label for="txtDniPadre">DNI</label>
+                        <input type="textDniPadre" name="txtDniPadre" class="form-control" id="txtDniPadre" placeholder="Ingrese el DNI">
+                       </div>
+                  	 </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="txtNombrePadre">Nombre</label>
+                          <input type="text" name="txtNombrePadre" class="form-control" id="txtNombrePadre" placeholder="Ingrese el nombre">
+                        </div>
+                  	 </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="txtApellidoPaternoPadre">Apellido paterno del padre</label>
+                          <input type="text" name="txtApellidoPaternoPadre" class="form-control" id="txtApellidoPaternoPadre" placeholder="Ingrese el apellido paterno">
+                        </div>
+                     </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="txtApellidoMaternoPadre">Apellido materno del padre</label>
+                          <input type="text" name="txtApellidoMaternoPadre" class="form-control" id="txtApellidoMaternoPadre" placeholder="Ingrese el apellido materno">
+                        </div>
+                     </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="txtDireccionPadre">Direccion</label>
+                          <input type="text" name="txtDireccionPadre" class="form-control" id="txtDireccionPadre" placeholder="Ingrese la direccion">
+                        </div>
+                     </div>
+
+                     <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="txtCelularPadre">Numero de celular</label>
+                          <input type="text" name="txtCelularPadre" class="form-control" id="txtCelularPadre" placeholder="Ingrese el numero de celular">
+                        </div>
+                     </div>
+
+                     <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="txtEmailPadre">Email</label>
+                          <input type="text" name="txtEmailPadre" class="form-control" id="txtEmailPadre" placeholder="Ingrese el correo electronico">
+                        </div>
+                     </div>
+                </div>
+
+              </div>
+                
+              <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+
+                  <button type="button" class="btn btn-secondary" onclick="$('#mdCreate').modal('hide');"> Cancelar </button>
+                </div>
+
+          </form>
+     </div>
+
+
+</div>
+</div>            
+</div>
+
+
+
+<!-- Page specific script -->
+<script>
+ 
+$(function () {
+  $.validator.setDefaults({
+    submitHandler: function ()
+     {
+
+          $.ajax({
+        method:"PUT",
+        url:"http://api1-app.com/api/v1/padres",
+        data:{id:CARGAR_ID_PADRE,dni_padre:$("#txtDniPadre").val(),nombres_padre:$("#txtNombrePadre").val(),apellido_paterno_padre:$("#txtApellidoPaternoPadre").val(),apellido_materno_padre:$("#txtApellidoMaternoPadre").val(),direccion_padre:$("#txtDireccionPadre").val(),celular_padre:$("#txtCelularPadre").val(),email_padre:$("#txtEmailPadre").val()}
+
+      }).done(function(response){
+
+        //console.log(response);
+
+      
+        //limpiar el formulario
+        $("#txtDni").val("");
+        $("#txtNombre").val("");
+        $("#txtApellidoPaternoPadre").val("");
+        $("#txtApellidoMaternoPadre").val("");
+        $("#txtDireccionPadre").val("");
+        $("#txtCelularPadre").val("");
+        $("#txtEmailPadre").val("");
+
+        $('#mdCreate').modal('hide');
+
+        updateDataTable();
+
+        });
+    
+    }
+
+  });
+  $('#formNewPadre').validate({
+    rules: {
+      txtDni: {
+        required: true
+        },
+      txtNombre: {
+        required: true
+      },
+      txtApellidoPaternoPadre: {
+        required: true
+      },
+      txtApellidoMaternoPadre: {
+        required: true
+      },
+      txtDireccionPadre: {
+        required: true
+      },
+      txtCelularPadre: {
+        required: true
+      },
+      txtEmailPadre: {
+        required: true
+      },
+     
+    },
+    messages: {
+      txtDni: {
+        required: "Ingrese el DNI"
+      },
+      txtNombre: {
+        required: "Ingrese el nombre"
+      },
+      txtApellidoPaternoPadre: {
+        required: "Ingrese el apellido paterno"
+      },
+      txtApellidoMaternoPadre: {
+        required: "Ingrese el apellido materno"
+      },
+      txtDireccionPadre: {
+        required: "Ingrese la direccion"
+      },
+      txtCelularPadre: {
+        required: "Ingrese el numero de celular"
+      },
+      txtEmailPadre: {
+        required: "Ingrese su correo electronico"
+      },
+      
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
+
+</script>
